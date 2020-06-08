@@ -1,18 +1,13 @@
 import requests
 from bs4 import BeautifulSoup as bs
-import openpyxl
-from urllib.request import urlretrieve
-import ssl
 
-wb = openpyxl.Workbook()
-sheet = wb.active
-sheet.append(["제목", "평점", "장르", "감독", "배우"])
-raw = requests.get("https://movie.naver.com/movie/running/current.nhn",headers={'User-Agent':'Mozilla/5.0'})
+sheet = "";
+sheet = sheet + "제목,평점,장르,감독,배우\n"
+raw = requests.get("https://movie.naver.com/movie/running/current.nhn")
 html = bs(raw.text, 'html.parser')
 movie = html.select("div.lst_wrap li")
 
-
-for i, m in enumerate(movie):
+for m in movie:
     title = m.select_one("dt.tit a")
     score = m.select_one("div.star_t1 span.num")
     genre = m.select("dl.info_txt1 dd:nth-of-type(1) a")
@@ -23,13 +18,13 @@ for i, m in enumerate(movie):
     directors_list = [d.text for d in directors]
     actors_list = [a.text for a in actors]
     
-    genre_str = ','.join(genre_list)
-    directors_str = ','.join(directors_list)
-    actors_str = ','.join(actors_list)
+    genre_str = '/'.join(genre_list)
+    directors_str = '/'.join(directors_list)
+    actors_str = '/'.join(actors_list)
     
-    sheet.append([title.text, score.text, genre_str, directors_str, actors_str])
+    title = title.text.replace(",","")
+    sheet = sheet + title + "," + score.text + "," + genre_str + "," + directors_str + "," + actors_str + "\n"
 
-wb.save("datasheet.csv")
-
-
-
+#input command below
+#python this.py > file_name.csv
+print(sheet)
