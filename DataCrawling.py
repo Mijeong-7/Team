@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
+import openpyxl
 
 xlsx = openpyxl.Workbook()
 sheet = xlsx.active
