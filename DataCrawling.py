@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup as bs
 
 wb = openpyxl.Workbook()
 sheet = wb.active
-sheet.append(["제목", "평점", "genres", "감독", "배우"])
+sheet.append(["제목", "평점", "", "감독", "배우"])
 raw = requests.get("https://movie.naver.com/movie/running/current.nhn")
 html = bs(raw.text, 'html.parser')
 movie = html.select("div.lst_wrap li")
