@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[8]:
-
-
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -33,10 +27,3 @@ for i, m in enumerate(movie):
     sheet.append([title.text, score.text, genre_str, directors_str, actors_str])
 
 wb.save("datasheet.xlsx")
-
-
-# In[ ]:
-
-
-
-
