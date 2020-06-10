@@ -1,13 +1,12 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-wb = openpyxl.Workbook()
-sheet = wb.active
-sheet.append(["제목", "평점", "", "감독", "배우"])
+xlsx = openpyxl.Workbook()
+sheet = xlsx.active
+sheet.append(["제목", "평점", "장르", "감독", "배우"])
 raw = requests.get("https://movie.naver.com/movie/running/current.nhn")
 html = bs(raw.text, 'html.parser')
 movie = html.select("div.lst_wrap li")
-
 
 for i, m in enumerate(movie):
     title = m.select_one("dt.tit a")
@@ -26,4 +25,4 @@ for i, m in enumerate(movie):
     
     sheet.append([title.text, score.text, genre_str, directors_str, actors_str])
 
-wb.save("datasheet.xlsx")
+xlsx.save("datasheet.xlsx")
